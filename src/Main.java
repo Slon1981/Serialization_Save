@@ -1,17 +1,72 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        GameProgress game1 = new GameProgress(100,1,1,1);
+        GameProgress game2 = new GameProgress(50, 2, 5, 24);
+        GameProgress game3 = new GameProgress(43, 3, 50, 132);
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        saveGame("D:/Games/savegames/save1.dat", game1);
+        saveGame("D:/Games/savegames/save2.dat", game2);
+        saveGame("D:/Games/savegames/save3.dat", game3);
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        List<String> list = new ArrayList<>();
+        list.add("D:/Games/savegames/save1.dat");
+        list.add("D:/Games/savegames/save2.dat");
+        list.add("D:/Games/savegames/save3.dat");
+
+        zipFiles("D:/Games/savegames/games.zip", list);
+
+
+    }
+
+
+    public static void saveGame(String file, GameProgress game) {
+        try {
+            FileOutputStream stream1 = new FileOutputStream(file);
+            ObjectOutputStream stream2 = new ObjectOutputStream(stream1);
+
+            stream2.writeObject(game);
+
+            stream1.close();
+            stream2.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void zipFiles(String zipFile, List<String> games){
+        try {
+            FileOutputStream stream1 = new FileOutputStream(zipFile);
+            ZipOutputStream stream2 = new ZipOutputStream(stream1);
+
+            for (String game : games) {
+
+                FileInputStream inputStream = new FileInputStream(game);
+
+                ZipEntry entry = new ZipEntry(zipFile);
+                stream2.putNextEntry(entry);
+
+                int fileBytes;
+                while ((fileBytes = inputStream.read()) != -1) {
+                    stream2.write(fileBytes);
+                }
+
+                inputStream.close();
+            }
+
+            stream1.close();
+            stream2.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

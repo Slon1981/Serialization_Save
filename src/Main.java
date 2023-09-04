@@ -50,7 +50,7 @@ public class Main {
 
                 FileInputStream inputStream = new FileInputStream(game);
 
-                ZipEntry entry = new ZipEntry(zipFile);
+                ZipEntry entry = new ZipEntry(game);
                 stream2.putNextEntry(entry);
 
                 int fileBytes;
@@ -62,7 +62,6 @@ public class Main {
             }
 
             stream1.close();
-            stream2.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

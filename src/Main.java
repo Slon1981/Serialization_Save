@@ -21,7 +21,15 @@ public class Main {
 
         zipFiles("D:/Games/savegames/games.zip", list);
 
+        for (String path : list) {
+            deleteFile(path);
+        }
 
+    }
+
+    public static void deleteFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
     }
 
 
@@ -34,9 +42,7 @@ public class Main {
 
             stream1.close();
             stream2.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        }  catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -62,9 +68,7 @@ public class Main {
             }
 
             stream1.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        }  catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
